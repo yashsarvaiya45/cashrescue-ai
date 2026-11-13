@@ -54,7 +54,7 @@ Open the dashboard in two separate browser contexts. Check `GET /api/health` for
 
 1. Review the [submission checklist](SUBMISSION_CHECKLIST.md). Initialize or select the intended Git repository and inspect the exact staged files and any existing history before publishing. Keep environment files and private credentials out of the repository.
 2. After publication and deployment approval, create the Render Web Service from the approved branch and enter the settings above. Select only an approved plan. Set `PUBLIC_ORIGIN` after the assigned domain is known and apply the updated settings.
-3. Open the hosted URL over HTTPS in clean desktop and mobile browsers. Confirm health, **Try Demo**, an invoice edit, scenario comparison, a later residual deficit, reset, and refresh. Check that private ledger routes and public upload return 403, public AI uses a labeled template, and a different tab has independent data.
+3. Open the hosted URL over HTTPS in clean desktop and mobile browsers. Confirm health, automatic dashboard loading, an invoice edit, scenario comparison, a later residual deficit, reset, and refresh. Check that private ledger routes and public upload return 403, public AI uses a labeled template, and a different tab has independent data.
 4. Recheck access after idle time before sharing the judge URL. Record the separately run local Gemini demonstration with the synthetic PDF if that is required by the submission portal.
 
 The production build was verified on loopback. A provider account, chosen plan, hosted HTTPS URL, and provider-specific ingress behavior remain to be verified in the approved deployment phase.

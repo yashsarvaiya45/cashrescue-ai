@@ -31,7 +31,7 @@ npm.cmd start
 
 | Time | Show | Say |
 | --- | --- | --- |
-| 0:00–0:30 | Public tab, **Try Demo** | “A small business can have invoices coming in and still miss payroll. Copper Kite Stationery starts with ₹25,000. The question is which cash arrives before its bills are due.” |
+| 0:00–0:30 | Public tab, automatically loaded dashboard | “A small business can have invoices coming in and still miss payroll. Copper Kite Stationery starts with ₹25,000. The question is which cash arrives before its bills are due.” |
 | 0:30–1:15 | Crisis alert and baseline chart | “The first projected shortfall is 17 November 2026. Workshop wages of ₹45,000 fall on a day with no scheduled receipts. That leaves the business ₹20,000 below zero.” |
 | 1:15–2:10 | **Explore rescue** and comparison | “The solver works backward from the deficit and recommends requesting ₹20,000 early from Blue Banyan Learning. The modeled receipt moves to 15 November. The other ₹10,000 remains on the original expected date, 21 November.” Point to **Baseline peak shortfall** and **Max remaining shortfall**. |
 | 2:10–2:45 | Editable simulation and ledger | Change the Blue Banyan early amount to ₹10,000 and run the simulation. Show that the remaining shortfall is ₹10,000. Point out that visitors can edit their own fictional invoices and expenses or reset their tab. |

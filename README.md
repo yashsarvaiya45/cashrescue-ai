@@ -101,7 +101,7 @@ The 117 tests run without live Gemini or MongoDB. They cover forecast and money 
 
 ## Try the synthetic demo
 
-The default local app opens with the synthetic Copper Kite Stationery ledger. To try the per-tab sandbox, run the [production rehearsal commands](docs/DEPLOYMENT.md#production-rehearsal-on-loopback) and choose **Try Demo**. The seeded business projects a ₹20,000 shortfall on 17 November 2026. Choose **Explore rescue** to model receiving ₹20,000 on 15 November and compare the resulting ₹0 maximum shortfall with the baseline. Try a smaller amount, edit the fictional ledger, or reset the demo.
+The default local app opens with the synthetic Copper Kite Stationery ledger. To try the per-tab sandbox, run the [production rehearsal commands](docs/DEPLOYMENT.md#production-rehearsal-on-loopback) and open the homepage. The dashboard loads automatically with a fresh synthetic ledger. The seeded business projects a ₹20,000 shortfall on 17 November 2026. Choose **Explore rescue** to model receiving ₹20,000 on 15 November and compare the resulting ₹0 maximum shortfall with the baseline. Try a smaller amount, edit the fictional ledger, or reset the demo. Refreshing starts a fresh sandbox in that tab.
 
 For local Gemini extraction, use the [fictional invoice PDF](output/pdf/synthetic-invoice.pdf) and follow the [timed walkthrough](docs/DEMO_SCRIPT.md).
 

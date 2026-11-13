@@ -1,9 +1,9 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import {
-  Activity, ArrowDownLeft, ArrowUpRight, Building2, CalendarDays, ChartNoAxesCombined, CircleCheck, FlaskConical,
+  Activity, ArrowDownLeft, ArrowUpRight, Building2, CalendarDays, ChartNoAxesCombined, CircleCheck,
   LayoutDashboard, LifeBuoy, ReceiptText, RotateCcw, ScrollText, Settings2, TriangleAlert, Wallet,
 } from 'lucide-react';
-import { calculateSandbox, requestApi } from './api.js';
+import { calculateSandbox, loadWorkspace, requestApi } from './api.js';
 import { formatDate, formatPaise, readAmount } from './format.js';
 import { LedgerWorkspace, ResetDemoDialog } from './components/LedgerWorkspace.jsx';
 import { CrisisAdvisor } from './components/AiTools.jsx';
@@ -119,7 +119,6 @@ export function Dashboard() {
   const [analysis, setAnalysis] = useState(null);
   const [mode, setMode] = useState(null);
   const [sandboxLedger, setSandboxLedger] = useState(null);
-  const [startingDemo, setStartingDemo] = useState(false);
   const [loadError, setLoadError] = useState('');
   const [loadVersion, setLoadVersion] = useState(0);
   const [notice, setNotice] = useState('');
@@ -162,17 +161,19 @@ export function Dashboard() {
 
   useEffect(() => {
     const controller = new AbortController();
-    requestApi('analysis', { signal: controller.signal }).then((data) => {
+    loadWorkspace(controller.signal).then(({ analysis: data, ledger }) => {
       if (controller.signal.aborted) return;
       setMode(data.mode);
-      if (data.mode === 'public-demo') return;
+      setSandboxLedger(ledger);
       setAnalysis(data);
-      const recommended = showRecommendation.current ? data.rescue.scenarios[0] ?? null : null;
+      const recommended = data.mode !== 'public-demo' && showRecommendation.current
+        ? data.rescue.scenarios[0] ?? null : null;
       setScenario(recommended);
       setDraft(draftFor(recommended));
     }).catch((error) => {
       if (!controller.signal.aborted) {
-        setLoadError(error.code === 'DATABASE_UNAVAILABLE' ? error.message : 'The ledger could not load. Check that the API is running and try again.');
+        setLoadError(error.code === 'DATABASE_UNAVAILABLE' || error.code === 'SANDBOX_LOAD_FAILED'
+          ? error.message : 'The workspace could not load. Try again.');
       }
     });
     return () => controller.abort();
@@ -203,18 +204,6 @@ export function Dashboard() {
   async function loadSandbox(message) {
     const data = await requestApi('sandbox');
     applySandbox(data, message);
-  }
-
-  async function tryDemo() {
-    setStartingDemo(true);
-    setLoadError('');
-    try {
-      await loadSandbox('Demo loaded.');
-    } catch (error) {
-      setLoadError(error.message);
-    } finally {
-      setStartingDemo(false);
-    }
   }
 
   function handleSaved(message, result) {
@@ -286,20 +275,10 @@ export function Dashboard() {
           {analysis && mode === 'demo' && <p className="mode-note">Use synthetic data only. Local demo edits are lost when the server restarts.</p>}
           {analysis && mode === 'database' && <p className="mode-note">Local database workspace. Use synthetic data only.</p>}
           {mode === 'public-demo' && <p className="mode-note">Use fictional data only. Edits stay in this tab and clear on refresh. Forecasts are illustrative.</p>}
-          {!analysis && mode === 'public-demo' ? (
-            <Panel className="demo-welcome">
-              <SectionIcon icon={FlaskConical} />
-              <h1>Try CashRescue AI</h1>
-              <p>Edit a fictional business ledger, then see how collecting an invoice early could cover a cash shortfall.</p>
-              {loadError && <p className="form-error" role="alert">{loadError}</p>}
-              <Button type="button" variant="primary" onClick={tryDemo} disabled={startingDemo}>
-                {startingDemo ? 'Loading demo…' : 'Try Demo'}<ArrowUpRight size={16} aria-hidden="true" />
-              </Button>
-            </Panel>
-          ) : !analysis ? (
+          {!analysis ? (
             <Panel className="load-state">
-              <p role={loadError ? 'alert' : 'status'}>{loadError || 'Loading ledger…'}</p>
-              {loadError && <Button onClick={() => reloadLedger()}>Retry</Button>}
+              <p role={loadError ? 'alert' : 'status'}>{loadError || 'Loading workspace…'}</p>
+              {loadError && <Button type="button" variant="primary" onClick={() => reloadLedger()}>Retry</Button>}
             </Panel>
           ) : page === 'dashboard' ? (
             <>

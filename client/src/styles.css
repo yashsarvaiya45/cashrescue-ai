@@ -260,10 +260,6 @@
   .ledger-table small { display: block; color: var(--muted); font-size: 10px; font-weight: 500; }
   .load-state { padding: 28px; color: var(--muted); }
   .load-state .button { margin-top: 12px; }
-  .demo-welcome { max-width: 720px; padding: clamp(20px, 5vw, 46px); }
-  .demo-welcome h1 { margin-top: 12px; font-size: clamp(24px, 4vw, 34px); font-weight: 800; }
-  .demo-welcome p { max-width: 48ch; margin-top: 8px; color: var(--muted); }
-  .demo-welcome .button { margin-top: 16px; }
   .ledger-shortcuts { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 15px; margin-top: 16px; color: var(--muted); }
   .ledger-shortcuts a { display: inline-flex; align-items: center; min-height: 36px; color: var(--emerald); font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
   .mode-note { margin-bottom: 12px; color: var(--muted); font-size: 12px; }

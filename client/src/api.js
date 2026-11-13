@@ -11,6 +11,21 @@ export async function requestApi(path, options) {
   return data;
 }
 
+export async function loadWorkspace(signal) {
+  const analysis = await requestApi('analysis', { signal });
+  if (analysis.mode !== 'public-demo') return { analysis, ledger: null };
+
+  signal.throwIfAborted();
+  try {
+    return await requestApi('sandbox', { signal });
+  } catch (error) {
+    signal.throwIfAborted();
+    const message = error.code === 'SANDBOX_RATE_LIMIT' || error.code === 'SANDBOX_ORIGIN'
+      ? error.message : 'The public demo could not load. Try again.';
+    throw Object.assign(new Error(message, { cause: error }), { code: 'SANDBOX_LOAD_FAILED' });
+  }
+}
+
 export function sendApi(path, method, revision, body) {
   return requestApi(path, {
     method,
